@@ -1,0 +1,50 @@
+<section class="accueil">
+  <!-- <div class=""> -->
+    <header class="barre-fenetre">
+      <!-- <span>frenchcab.exe</span> -->
+    </header>
+
+    <div class="contenu-fenetre">
+      <div class="bloc-acceuil">
+        <img
+        src="/images/frechcab.wepb"
+        alt="image-acceuil"
+        class="accueil"
+        />
+      </div>
+
+      <div class="presentation">
+        <p class="sur-titre">WELCOME TO</p>
+        <h2>taxi-rides works</h2>
+
+        <p class="description">
+          Vous pourrez voir dans les tableaux ci-dessous les courses des taxis Newyorkais.
+        </p>
+
+        <div class="TaxiRides">
+          <table>
+              <tr>
+                  <th>Localisation de départ</th>
+                  <th>Localisation d'arrivée</th>
+                  <th>Heure de départ</th>
+                  <th>Heure d'arrivée</th>
+                  <th>Durée de la course</th>
+              </tr>
+              @for (element of coursesAffichees(); track element.id){
+              <tr>
+                  <td>{{element.localisation_d}}</td>
+                  <td>{{element.localisation_a}}</td>
+                  <td>{{element.heure_d}}</td>
+                  <td>{{element.heure_a}}</td>
+                  <td>{{element.duree}}</td>
+              </tr> 
+            }
+              </table>
+              <bouton (click)="pagePrecedente()">Precedent</bouton>
+              <bouton (click)="pageSuivante()">Precedent</bouton>
+          </div>
+      </div>
+    </div> 
+</section>
+
+  
