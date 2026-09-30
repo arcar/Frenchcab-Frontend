@@ -1,59 +1,55 @@
-# Frontend
+# Frenchcab-Compose
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.0.
+## Contexte 
+Vous intégrez une équipe chargée de développer, sur cinq semaines, une application exploitant les données réelles des taxis de New York publiées par la NYC Taxi & Limousine Commission (TLC).
 
-## Development server
-
-To start a local development server, run:
-
-```bash
-ng serve
+## Structuration du projet
+Projet avec **4 repos** `Github`
 ```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+Frenchcab-compose
+-> Frenchcab-Backend + Frenchcab-Frontend + Frenchcab-Gateway
 ```
+Le dossier `Frenchcab-compose` contient les autres dossiers du projet (`Frenchcab-Backend`, `Frenchcab-Frontend`, `Frenchcab-Gateway`) il est là pour orchetrer tous le projet.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Installation 
 
-```bash
-ng generate --help
+### 1. Github
+
+1. Cloner les autres repos dans le dossier `Frenchcab-compose` :
+- `Frenchcab-Frontend` :
+```powershell
+https://github.com/mmorkos-cyber/Frenchcab-Frontend.git
 ```
+Demander l'accès en tant que membre à `mmorkos-cyber`, puis lire le `contributing`.
 
-## Building
+2. Secrets **Github**
+Dans ce repo ont été ajouté des secrets (`DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`), afin de pouvoir lancer le `workflows`.
 
-To build the project run:
+3. `.github`
+Dans `Frenchcab-Frontend` a été créer un dossier `github` qui contient le `workflows` avec un fichier `ci.yml`.
+Actuellement le fichier `ci.yml`, sert uniquement à lancer `docker build` et `docker push`, le Frontend n'ayant à ce stade pas de test.
 
+### 2. VM
+
+1. Pour accéder à la VM :
 ```bash
-ng build
+ssh -i ~/Downloads/myKey.pem groupe2@{numéro api dans VM-linux.txt}
 ```
+Il existe 4 utilisateurs crées (`utilisateur1`, `utilisateur2`, `utilisateur3`, `utilisateur4`). Chacun a un mot de passe qui se trouve dans le fichier text `VM-linux.txt`.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+2. `deploy.sh`
+Dans la VM a été crée un fichier `deploy.sh` qui avec `cron` se déclenche à intervalle de ....... pour faire un `docker pull` et un `docker up`.
 
-## Running unit tests
+### 3. Docker
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Le Frontend a été dockerisé.
 
-```bash
-ng test
-```
+Les images docker sont sur **Dockerhub**, et s'active via le fichier `ci.yml` dans ce repo, il suffit donc de faire actuellement un `push` sur la branche `staging`. A terme il semble plus judicieux de modifier `ci.yml` pour qu'il s'active sur un `push` sur la branche `dev`.
 
-## Running end-to-end tests
+Ainsi pour le lancer la première fois et récupérer l'image, il vous faudra faire un push sur `staging`.
 
-For end-to-end (e2e) testing, run:
+### 4. Frontend S1
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Angular a été intialisé, deux components ont été ajouté (`taxi-rides` et `service`).
+- `taxi-rides` affiche le tableau avec deux boutons (précédent et suivant), pour le moment il n'y a pas d'affichage des données dans celu-ci ni CSS.
+- `service` a été crée pour récupérer l'API du backend pour pouvoir affiché par la suite les données. Il n'est pas oppérationnel à ce jour.
