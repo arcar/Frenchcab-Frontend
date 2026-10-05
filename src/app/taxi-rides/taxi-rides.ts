@@ -9,9 +9,9 @@ import { Component } from '@angular/core';
 
 export class TaxiRides {
   // Récupération des courses du JSON
-  courses = [];
+  courses: any[] = [];
   // les courses affichées
-  coursesAffichees = [];
+  coursesAffichees: any[] = [];
   // Numéro de page actuel
   pageActuelle = 1;
   // nombre de ligne affichée
@@ -25,11 +25,13 @@ export class TaxiRides {
   }
   // passer à la page suivante
   pageSuivante() {
+    if (this.pageActuelle * this.taillePage >= this.courses.length) return;
     this.pageActuelle++;
     this.mettreAJourAffichage();
   }
   // retrouner à la page précédente
   pagePrecedente() {
+    if (this.pageActuelle <= 1) return;
     this.pageActuelle--;
     this.mettreAJourAffichage();
   }

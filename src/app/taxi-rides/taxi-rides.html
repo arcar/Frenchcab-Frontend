@@ -30,7 +30,7 @@
                   <th>Heure d'arrivée</th>
                   <th>Durée de la course</th>
               </tr>
-              @for (element of coursesAffichees(); track element.id){
+              @for (element of coursesAffichees; track element.id){
               <tr>
                   <td>{{element.localisation_d}}</td>
                   <td>{{element.localisation_a}}</td>
@@ -40,8 +40,8 @@
               </tr> 
             }
               </table>
-              <bouton (click)="pagePrecedente()">Precedent</bouton>
-              <bouton (click)="pageSuivante()">Precedent</bouton>
+              <button (click)="pagePrecedente()">Precedent</button>
+              <button (click)="pageSuivante()">Suivant</button>
           </div>
       </div>
     </div> 
