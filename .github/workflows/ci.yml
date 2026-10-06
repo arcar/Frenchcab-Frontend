@@ -1,14 +1,40 @@
-# .github/workflows/docker.yml
+# .github/workflows/ci.yml
 
-name: Build Docker image
+name: CI
 
 on:
   push:
     branches:
+      - dev
       - staging
+  pull_request:
+    branches:
+      - dev
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Lancer les tests
+        run: npx ng test --watch=false
+
   build:
+    # Build et push de l'image uniquement sur staging, si les tests passent
+    if: github.event_name == 'push' && github.ref == 'refs/heads/staging'
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
