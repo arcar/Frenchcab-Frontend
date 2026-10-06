@@ -21,6 +21,24 @@
           Voici les courses des taxis Newyorkais dans le tableau ci-dessous.
         </p>
 
+        <div class="planification">
+          <label for="depart">Zone de départ</label>
+          <select id="depart" #depart (change)="zoneDepart = depart.value">
+            <option value="" disabled selected>Choisir une zone</option>
+            @for (zone of zones; track zone.LocationID) {
+              <option [value]="zone.LocationID">{{ zone.Zone }} ({{ zone.Borough }})</option>
+            }
+          </select>
+
+          <label for="arrivee">Zone d'arrivée</label>
+          <select id="arrivee" #arrivee (change)="zoneArrivee = arrivee.value">
+            <option value="" disabled selected>Choisir une zone</option>
+            @for (zone of zones; track zone.LocationID) {
+              <option [value]="zone.LocationID">{{ zone.Zone }} ({{ zone.Borough }})</option>
+            }
+          </select>
+        </div>
+
         <div class="TaxiRides">
           <table>
               <tr>
@@ -37,14 +55,12 @@
                   <td>{{element.heure_d}}</td>
                   <td>{{element.heure_a}}</td>
                   <td>{{element.duree}}</td>
-              </tr> 
+              </tr>
             }
               </table>
               <button (click)="pagePrecedente()">Precedent</button>
               <button (click)="pageSuivante()">Suivant</button>
           </div>
       </div>
-    </div> 
+    </div>
 </section>
-
-  

@@ -1,14 +1,15 @@
-import { Service } from '@angular/core';
+import { Service, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Service()
 export class CoursesService {
 
     private apiUrl = 'http://localhost:3000';
 
-    constructor(/* HttpClient ici */) {}
+    private http = inject(HttpClient);
 
-    getArticles() {
-        // appel vers ton backend
+    getZones() {
+        return this.http.get<any[]>(`${this.apiUrl}/zones`);
     }
 
 }

@@ -1,6 +1,8 @@
 import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TaxiRides } from './taxi-rides';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 // Génère n courses factices
 function fausseCourses(n: number) {
@@ -22,6 +24,7 @@ describe('TaxiRides', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TaxiRides],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TaxiRides);
