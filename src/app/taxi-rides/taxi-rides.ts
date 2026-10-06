@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CoursesService } from '../services/taxi';
 
 @Component({
   imports: [],
@@ -7,7 +8,9 @@ import { Component } from '@angular/core';
   templateUrl: './taxi-rides.html',
 })
 
-export class TaxiRides {
+export class TaxiRides implements OnInit {
+  constructor(private CoursesServices: CoursesService) {}
+
   // Récupération des courses du JSON
   courses: any[] = [];
   // les courses affichées
@@ -17,10 +20,22 @@ export class TaxiRides {
   // nombre de ligne affichée
   taillePage = 15;
 
+  // liste des zones (GET /zones)
+  zones: any[] = [];
+  // zones choisies par l'utilisateur
+  zoneDepart = '';
+  zoneArrivee = '';
+
+  ngOnInit() {
+    this.CoursesServices.getZones().subscribe((data) => {
+      this.zones = data;
+    });
+  }
+
   // méthode pour changer de page
   mettreAJourAffichage() {
     const debut = (this.pageActuelle - 1) * this.taillePage;
-    const fin = debut + this.taillePage
+    const fin = debut + this.taillePage;
     this.coursesAffichees = this.courses.slice(debut, fin);
   }
   // passer à la page suivante
