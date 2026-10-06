@@ -63,6 +63,10 @@
             "production": {
               "buildTarget": "Frontend:build:production"
             },
+            "options": {
+                "host": "0.0.0.0",
+                "allowedHosts": ["g2.valentinduflot.fr"]
+  },
             "development": {
               "buildTarget": "Frontend:build:development"
             }
