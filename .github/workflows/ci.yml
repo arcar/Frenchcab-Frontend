@@ -6,7 +6,6 @@ on:
   push:
     branches:
       - dev
-      - staging
   pull_request:
     branches:
       - dev
@@ -32,8 +31,8 @@ jobs:
         run: npx ng test --watch=false
 
   build:
-    # Build et push de l'image uniquement sur staging, si les tests passent
-    if: github.event_name == 'push' && github.ref == 'refs/heads/staging'
+    # Build et push de l'image uniquement sur dev, si les tests passent
+    if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
     needs: test
     runs-on: ubuntu-latest
 
