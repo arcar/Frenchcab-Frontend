@@ -11,6 +11,52 @@ import { CoursesService } from '../services/taxi';
 export class TaxiRides implements OnInit {
   constructor(private CoursesServices: CoursesService) {}
 
+  // Planification d'une course
+  zones = signal<any[]>([]);
+  zoneDepart = '';
+  zoneArrivee = '';
+  dateCourse = '';
+  heureCourse = '';
+
+  // Résultat de l'estimation (signals : l'app est zoneless)
+  dureeEstimee = signal<number | null>(null);
+  messageErreur = signal('');
+  chargement = signal(false);
+
+  ngOnInit() {
+    this.CoursesServices.getZones().subscribe((data) => {
+      this.zones.set(data);
+    });
+  }
+
+  // Demande l'estimation de durée au back (via la gateway)
+  estimerDuree() {
+    this.dureeEstimee.set(null);
+    this.messageErreur.set('');
+
+    if (!this.zoneDepart || !this.zoneArrivee || !this.dateCourse || !this.heureCourse) {
+      this.messageErreur.set('Choisis une zone de départ, une zone d\'arrivée, une date et une heure.');
+      return;
+    }
+
+    this.chargement.set(true);
+    this.CoursesServices.estimerDuree({
+      zone_depart: Number(this.zoneDepart),
+      zone_arrivee: Number(this.zoneArrivee),
+      date: this.dateCourse,
+      heure: this.heureCourse,
+    }).subscribe({
+      next: (reponse) => {
+        this.dureeEstimee.set(reponse.duree_minutes);
+        this.chargement.set(false);
+      },
+      error: (err) => {
+        this.messageErreur.set(err.error?.message || 'Estimation impossible pour le moment.');
+        this.chargement.set(false);
+      },
+    });
+  }
+
   // Récupération des courses du JSON
   courses: any[] = [];
   // les courses affichées
@@ -20,24 +66,10 @@ export class TaxiRides implements OnInit {
   // nombre de ligne affichée
   taillePage = 15;
 
-  // liste des zones (GET /zones) : un signal pour que la page se mette à jour
-  zones = signal<any[]>([]);
-  // choix de l'utilisateur
-  zoneDepart = '';
-  zoneArrivee = '';
-  dateCourse = '';
-  heureCourse = '';
-
-  ngOnInit() {
-    this.CoursesServices.getZones().subscribe((data) => {
-      this.zones.set(data);
-    });
-  }
-
   // méthode pour changer de page
   mettreAJourAffichage() {
     const debut = (this.pageActuelle - 1) * this.taillePage;
-    const fin = debut + this.taillePage;
+    const fin = debut + this.taillePage
     this.coursesAffichees = this.courses.slice(debut, fin);
   }
   // passer à la page suivante

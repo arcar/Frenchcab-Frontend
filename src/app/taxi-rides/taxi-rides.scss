@@ -98,6 +98,43 @@
     }
   }
 
+  .actions {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #f5b800;
+      color: #222;
+      font-size: 1rem;
+      cursor: pointer;
+
+      &:hover:not(:disabled) {
+        background: #e0a800;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
+    .resultat {
+      margin: 0;
+      color: #222;
+    }
+
+    .erreur {
+      margin: 0;
+      color: #c0392b;
+    }
+  }
+
   @media (max-width: 640px) {
     grid-template-columns: 1fr;
   }
