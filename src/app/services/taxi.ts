@@ -1,5 +1,6 @@
 import { Service, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 export interface DemandeDuree {
     zone_depart: number;
@@ -27,7 +28,7 @@ export interface CoursePlanifiee {
 
 @Service()
 export class CoursesService {
-    private apiUrl = 'http://localhost:3000';
+    private apiUrl = environment.gatewayUrl;
     private http = inject(HttpClient);
 
     getZones() {
