@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CoursesService } from '../services/taxi';
 
 @Component({
@@ -20,9 +20,9 @@ export class TaxiRides implements OnInit {
   // nombre de ligne affichée
   taillePage = 15;
 
-  // liste des zones (GET /zones)
-  zones: any[] = [];
-  // zones choisies par l'utilisateur
+  // liste des zones (GET /zones) : un signal pour que la page se mette à jour
+  zones = signal<any[]>([]);
+  // choix de l'utilisateur
   zoneDepart = '';
   zoneArrivee = '';
   dateCourse = '';
@@ -30,7 +30,7 @@ export class TaxiRides implements OnInit {
 
   ngOnInit() {
     this.CoursesServices.getZones().subscribe((data) => {
-      this.zones = data;
+      this.zones.set(data);
     });
   }
 
