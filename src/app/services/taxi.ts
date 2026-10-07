@@ -45,4 +45,11 @@ export class CoursesService {
     getCourses() {
         return this.http.get<CoursePlanifiee[]>(`${this.apiUrl}/courses`);
     }
+
+        annulerCourse(id: number) {
+        return this.http.patch<{ id: number; statut: string }>(
+            `${this.apiUrl}/courses/${id}/annulation`,
+            {}
+        );
+    }
 }

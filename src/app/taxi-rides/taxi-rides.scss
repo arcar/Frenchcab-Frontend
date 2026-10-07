@@ -185,4 +185,17 @@
       cursor: not-allowed;
     }
   }
+
+  button.annuler {
+    margin: 0;
+    padding: 6px 12px;
+    background: #fff;
+    border: 1px solid #c0392b;
+    color: #c0392b;
+
+    &:hover:not(:disabled) {
+      background: #c0392b;
+      color: #fff;
+    }
+  }
 }

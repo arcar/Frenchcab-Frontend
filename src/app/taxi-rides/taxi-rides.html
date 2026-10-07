@@ -66,7 +66,7 @@
       </div>
 
       <div class="TaxiRides">
-        <table>
+                <table>
           <tr>
             <th>Départ</th>
             <th>Arrivée</th>
@@ -74,6 +74,7 @@
             <th>Passagers</th>
             <th>Durée estimée</th>
             <th>Statut</th>
+            <th>Action</th>
           </tr>
           @for (element of coursesAffichees; track element.id) {
             <tr>
@@ -83,6 +84,11 @@
               <td>{{ element.passagers }}</td>
               <td>{{ element.duree_minutes }} min</td>
               <td>{{ element.statut }}</td>
+              <td>
+                @if (element.statut === 'planifiee') {
+                  <button type="button" class="annuler" (click)="annuler(element.id)">Annuler</button>
+                }
+              </td>
             </tr>
           }
         </table>

@@ -113,6 +113,28 @@ export class TaxiRides implements OnInit {
     });
   }
 
+    // Annulation d'une course planifiée
+  annuler(id: number) {
+    this.messageErreur.set('');
+    this.messageSucces.set('');
+
+    this.CoursesServices.annulerCourse(id).subscribe({
+      next: () => {
+        this.messageSucces.set(`Course n°${id} annulée.`);
+        // on recharge la liste pour afficher le nouveau statut
+        const page = this.pageActuelle;
+        this.CoursesServices.getCourses().subscribe((data: CoursePlanifiee[]) => {
+          this.courses = data;
+          this.pageActuelle = page;
+          this.mettreAJourAffichage();
+        });
+      },
+      error: (err) => {
+        this.messageErreur.set(err.error?.message || 'Annulation impossible pour le moment.');
+      },
+    });
+  }
+
   // méthode pour changer de page
   mettreAJourAffichage() {
     const debut = (this.pageActuelle - 1) * this.taillePage;
