@@ -1,27 +1,21 @@
 <section class="accueil">
-  <!-- <div class=""> -->
-    <header class="barre-fenetre">
-      <!-- <span>frenchcab.exe</span> -->
-    </header>
+  <header class="barre-fenetre"></header>
 
-    <div class="contenu-fenetre">
-      <div class="bloc-acceuil">
-        <img
-        src="/image/frenchcab.webp"
-        alt="image-acceuil"
-        class="accueil"
-        />
-      </div>
+  <div class="contenu-fenetre">
+    <div class="bloc-acceuil">
+      <img src="/image/frenchcab.webp" alt="image-acceuil" class="accueil" />
+    </div>
 
-      <div class="presentation">
-        <p class="sur-titre">WELCOME TO</p>
-        <h2>taxi-rides works</h2>
+    <div class="presentation">
+      <p class="sur-titre">ZUMBA</p>
+      <h2>DETRUISEZ PAS MON CODE BANDE DE SAUVAGE</h2>
 
-        <p class="description">
-          Voici les courses des taxis Newyorkais dans le tableau ci-dessous.
-        </p>
+      <p class="description">
+        Voici les courses des taxis Newyorkais dans le tableau ci-dessous.
+      </p>
 
-        <div class="planification">
+      <div class="planification">
+        <div class="champ">
           <label for="depart">Zone de départ</label>
           <select id="depart" #depart (change)="zoneDepart = depart.value">
             <option value="" disabled selected>Choisir une zone</option>
@@ -29,7 +23,9 @@
               <option [value]="zone.LocationID">{{ zone.Zone }} ({{ zone.Borough }})</option>
             }
           </select>
+        </div>
 
+        <div class="champ">
           <label for="arrivee">Zone d'arrivée</label>
           <select id="arrivee" #arrivee (change)="zoneArrivee = arrivee.value">
             <option value="" disabled selected>Choisir une zone</option>
@@ -37,36 +33,54 @@
               <option [value]="zone.LocationID">{{ zone.Zone }} ({{ zone.Borough }})</option>
             }
           </select>
+        </div>
 
+        <div class="champ">
           <label for="date">Date</label>
           <input id="date" type="date" #date (change)="dateCourse = date.value" />
+        </div>
 
+        <div class="champ">
           <label for="heure">Heure</label>
           <input id="heure" type="time" #heure (change)="heureCourse = heure.value" />
         </div>
 
-        <div class="TaxiRides">
-          <table>
-              <tr>
-                  <th>Localisation de départ</th>
-                  <th>Localisation d'arrivée</th>
-                  <th>Heure de départ</th>
-                  <th>Heure d'arrivée</th>
-                  <th>Durée de la course</th>
-              </tr>
-              @for (element of coursesAffichees; track element.id){
-              <tr>
-                  <td>{{element.localisation_d}}</td>
-                  <td>{{element.localisation_a}}</td>
-                  <td>{{element.heure_d}}</td>
-                  <td>{{element.heure_a}}</td>
-                  <td>{{element.duree}}</td>
-              </tr>
-            }
-              </table>
-              <button (click)="pagePrecedente()">Precedent</button>
-              <button (click)="pageSuivante()">Suivant</button>
-          </div>
+        <div class="actions">
+          <button type="button" (click)="estimerDuree()" [disabled]="chargement()">
+            {{ chargement() ? 'Calcul...' : 'Estimer la durée' }}
+          </button>
+
+          @if (dureeEstimee() !== null) {
+            <p class="resultat">Durée estimée : <strong>{{ dureeEstimee() }} min</strong></p>
+          }
+          @if (messageErreur()) {
+            <p class="erreur">{{ messageErreur() }}</p>
+          }
+        </div>
+      </div>
+
+      <div class="TaxiRides">
+        <table>
+          <tr>
+            <th>Localisation de départ</th>
+            <th>Localisation d'arrivée</th>
+            <th>Heure de départ</th>
+            <th>Heure d'arrivée</th>
+            <th>Durée de la course</th>
+          </tr>
+          @for (element of coursesAffichees; track element.id) {
+            <tr>
+              <td>{{ element.localisation_d }}</td>
+              <td>{{ element.localisation_a }}</td>
+              <td>{{ element.heure_d }}</td>
+              <td>{{ element.heure_a }}</td>
+              <td>{{ element.duree }}</td>
+            </tr>
+          }
+        </table>
+        <button (click)="pagePrecedente()">Precedent</button>
+        <button (click)="pageSuivante()">Suivant</button>
       </div>
     </div>
+  </div>
 </section>
