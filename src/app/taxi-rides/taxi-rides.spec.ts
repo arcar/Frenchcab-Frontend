@@ -54,7 +54,7 @@ describe('TaxiRides', () => {
     return element.querySelectorAll('button');
   }
 
-  // Boutons de pagination (les 2 derniers ; les 2 premiers sont Estimer / Réserver)
+  // Boutons de pagination (les 2 derniers du DOM)
   function boutonsPagination() {
     return Array.from(boutons()).slice(-2);
   }
@@ -83,6 +83,7 @@ describe('TaxiRides', () => {
         'Passagers',
         'Durée estimée',
         'Statut',
+        'Action',
       ]);
     });
   });
@@ -108,7 +109,18 @@ describe('TaxiRides', () => {
         '1',
         '30 min',
         'planifiee',
+        'Annuler',
       ]);
+    });
+
+    it("n'affiche pas le bouton Annuler pour une course annulée", async () => {
+      await chargerCourses(1);
+      component.courses = [{ ...fausseCourses(1)[0], statut: 'annulee' }];
+      component.mettreAJourAffichage();
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(element.querySelector('button.annuler')).toBeNull();
     });
 
     it('affiche au maximum 15 lignes', async () => {
