@@ -1,18 +1,21 @@
 import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TaxiRides } from './taxi-rides';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { TaxiRides } from './taxi-rides';
 
 // Génère n courses factices
 function fausseCourses(n: number) {
   return Array.from({ length: n }, (_, i) => ({
     id: i + 1,
-    localisation_d: `Départ ${i + 1}`,
-    localisation_a: `Arrivée ${i + 1}`,
-    heure_d: '10:00',
-    heure_a: '10:30',
-    duree: '30 min',
+    date_heure: '2026-10-10 10:00',
+    zone_depart: 132,
+    nom_depart: `Départ ${i + 1}`,
+    zone_arrivee: 161,
+    nom_arrivee: `Arrivée ${i + 1}`,
+    passagers: 1,
+    duree_minutes: 30,
+    statut: 'planifiee',
   }));
 }
 
@@ -51,6 +54,11 @@ describe('TaxiRides', () => {
     return element.querySelectorAll('button');
   }
 
+  // Boutons de pagination (les 2 derniers ; les 2 premiers sont Estimer / Réserver)
+  function boutonsPagination() {
+    return Array.from(boutons()).slice(-2);
+  }
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -69,11 +77,12 @@ describe('TaxiRides', () => {
     it("affiche les en-têtes du tableau", () => {
       const entetes = Array.from(element.querySelectorAll('th')).map(th => th.textContent?.trim());
       expect(entetes).toEqual([
-        'Localisation de départ',
-        "Localisation d'arrivée",
-        'Heure de départ',
-        "Heure d'arrivée",
-        'Durée de la course',
+        'Départ',
+        'Arrivée',
+        'Date et heure',
+        'Passagers',
+        'Durée estimée',
+        'Statut',
       ]);
     });
   });
@@ -84,15 +93,22 @@ describe('TaxiRides', () => {
       expect(img?.getAttribute('src')).toBe('/image/frenchcab.webp');
     });
 
-    it('affiche les boutons Precedent et Suivant', () => {
+    it('affiche les boutons Estimer, Réserver, Precedent et Suivant', () => {
       const textes = Array.from(boutons()).map(b => b.textContent?.trim());
-      expect(textes).toEqual(['Precedent', 'Suivant']);
+      expect(textes).toEqual(['Estimer la durée', 'Réserver', 'Precedent', 'Suivant']);
     });
 
     it("affiche le contenu d'une course dans les cellules", async () => {
       await chargerCourses(1);
       const cellules = Array.from(element.querySelectorAll('td')).map(td => td.textContent?.trim());
-      expect(cellules).toEqual(['Départ 1', 'Arrivée 1', '10:00', '10:30', '30 min']);
+      expect(cellules).toEqual([
+        'Départ 1',
+        'Arrivée 1',
+        '2026-10-10 10:00',
+        '1',
+        '30 min',
+        'planifiee',
+      ]);
     });
 
     it('affiche au maximum 15 lignes', async () => {
@@ -163,7 +179,7 @@ describe('TaxiRides', () => {
   describe('boutons', () => {
     it('le clic sur Suivant puis Precedent met à jour le tableau', async () => {
       await chargerCourses(40);
-      const [precedent, suivant] = Array.from(boutons());
+      const [precedent, suivant] = boutonsPagination();
 
       suivant.click();
       fixture.detectChanges();

@@ -7,11 +7,11 @@
     </div>
 
     <div class="presentation">
-      <p class="sur-titre">ZUMBA</p>
-      <h2>DETRUISEZ PAS MON CODE BANDE DE SAUVAGE</h2>
+      <p class="sur-titre">WELCOME TO</p>
+      <h2>taxi-rides works</h2>
 
       <p class="description">
-        Voici les courses des taxis Newyorkais dans le tableau ci-dessous.
+        Planifie une course, puis retrouve tes réservations dans le tableau ci-dessous.
       </p>
 
       <div class="planification">
@@ -47,11 +47,17 @@
 
         <div class="actions">
           <button type="button" (click)="estimerDuree()" [disabled]="chargement()">
-            {{ chargement() ? 'Calcul...' : 'Estimer la durée' }}
+            Estimer la durée
+          </button>
+          <button type="button" (click)="reserver()" [disabled]="chargement()">
+            Réserver
           </button>
 
           @if (dureeEstimee() !== null) {
             <p class="resultat">Durée estimée : <strong>{{ dureeEstimee() }} min</strong></p>
+          }
+          @if (messageSucces()) {
+            <p class="resultat">{{ messageSucces() }}</p>
           }
           @if (messageErreur()) {
             <p class="erreur">{{ messageErreur() }}</p>
@@ -62,19 +68,21 @@
       <div class="TaxiRides">
         <table>
           <tr>
-            <th>Localisation de départ</th>
-            <th>Localisation d'arrivée</th>
-            <th>Heure de départ</th>
-            <th>Heure d'arrivée</th>
-            <th>Durée de la course</th>
+            <th>Départ</th>
+            <th>Arrivée</th>
+            <th>Date et heure</th>
+            <th>Passagers</th>
+            <th>Durée estimée</th>
+            <th>Statut</th>
           </tr>
           @for (element of coursesAffichees; track element.id) {
             <tr>
-              <td>{{ element.localisation_d }}</td>
-              <td>{{ element.localisation_a }}</td>
-              <td>{{ element.heure_d }}</td>
-              <td>{{ element.heure_a }}</td>
-              <td>{{ element.duree }}</td>
+              <td>{{ element.nom_depart }}</td>
+              <td>{{ element.nom_arrivee }}</td>
+              <td>{{ element.date_heure }}</td>
+              <td>{{ element.passagers }}</td>
+              <td>{{ element.duree_minutes }} min</td>
+              <td>{{ element.statut }}</td>
             </tr>
           }
         </table>
