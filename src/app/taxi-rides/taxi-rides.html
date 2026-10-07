@@ -23,6 +23,7 @@
 
         <div class="planification">
           <label for="depart">Zone de départ</label>
+          <label for="date">Date</label>
           <select id="depart" #depart (change)="zoneDepart = depart.value">
             <option value="" disabled selected>Choisir une zone</option>
             @for (zone of zones; track zone.LocationID) {
@@ -32,6 +33,12 @@
 
           <label for="arrivee">Zone d'arrivée</label>
           <select id="arrivee" #arrivee (change)="zoneArrivee = arrivee.value">
+          <label for="date">Date</label>
+          <input id="date" type="date" #date (change)="dateCourse = date.value" />
+
+          <label for="heure">Heure</label>
+          <input id="heure" type="time" #heure (change)="heureCourse = heure.value" />
+
             <option value="" disabled selected>Choisir une zone</option>
             @for (zone of zones; track zone.LocationID) {
               <option [value]="zone.LocationID">{{ zone.Zone }} ({{ zone.Borough }})</option>

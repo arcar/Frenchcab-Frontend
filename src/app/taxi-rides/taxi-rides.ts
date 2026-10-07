@@ -25,6 +25,8 @@ export class TaxiRides implements OnInit {
   // zones choisies par l'utilisateur
   zoneDepart = '';
   zoneArrivee = '';
+  dateCourse = '';
+  heureCourse = '';
 
   ngOnInit() {
     this.CoursesServices.getZones().subscribe((data) => {
