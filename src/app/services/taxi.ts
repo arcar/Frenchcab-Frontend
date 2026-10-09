@@ -27,8 +27,8 @@ export interface CoursePlanifiee {
 
 @Service()
 export class CoursesService {
-    private apiUrl = 'http://localhost:3000';
-    private http = inject(HttpClient);
+    private apiUrl = '/api';
+    private http = inject(HttpClient);  
 
     getZones() {
         return this.http.get<any[]>(`${this.apiUrl}/zones`);
