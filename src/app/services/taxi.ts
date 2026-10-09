@@ -28,13 +28,8 @@ export interface CoursePlanifiee {
 
 @Service()
 export class CoursesService {
-<<<<<<< HEAD
-    private apiUrl = '/api';
-    private http = inject(HttpClient);  
-=======
     private apiUrl = environment.gatewayUrl;
     private http = inject(HttpClient);
->>>>>>> fe49eb41c0c6a51ab67fbc9b7444ed79f470624f
 
     getZones() {
         return this.http.get<any[]>(`${this.apiUrl}/zones`);
